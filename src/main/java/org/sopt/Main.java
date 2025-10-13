@@ -3,7 +3,7 @@ package org.sopt;
 import org.sopt.controller.MemberController;
 import org.sopt.domain.Member;
 import org.sopt.repository.MemoryMemberRepository;
-import org.sopt.service.MemberService;
+import org.sopt.service.MemberServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
         MemoryMemberRepository memberRepository = new MemoryMemberRepository();
-        MemberService memberService = new MemberService();
+        MemberServiceImpl memberService = new MemberServiceImpl();
         MemberController memberController = new MemberController();
 
         Scanner scanner = new Scanner(System.in);

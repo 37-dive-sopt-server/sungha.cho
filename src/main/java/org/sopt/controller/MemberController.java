@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class MemberController {
 
-    private MemberService memberService = new MemberService();
+    private MemberService memberService = new MemberServiceImpl();
 
     public Long createMember(String name) {
 
