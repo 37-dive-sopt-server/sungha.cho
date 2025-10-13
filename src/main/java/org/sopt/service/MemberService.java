@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class MemberService {
 
-    private MemoryMemberRepository memberRepository;
+    private MemoryMemberRepository memberRepository = new MemoryMemberRepository();
     private static long sequence = 1L;
 
     public Long join(String name) {
