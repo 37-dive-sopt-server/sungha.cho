@@ -1,10 +1,12 @@
 package org.sopt; // 이 파일이 포함된 패키지 경로(폴더 논리 이름). import에서 같은 패키지면 경로 생략 가능.
 
 import org.sopt.controller.MemberController; // 컨트롤러(요청을 서비스에 전달하는 역할) 사용을 위해 불러온다.
+import org.sopt.domain.Gender;
 import org.sopt.domain.Member;               // Member 타입(도메인 객체)을 사용하기 위해 불러온다.
 import org.sopt.repository.MemoryMemberRepository; // 메모리 저장소(Repository) 구현체를 사용하기 위해 불러온다.
 import org.sopt.service.MemberServiceImpl;   // 서비스 구현체를 사용하기 위해 불러온다.
 
+import java.time.LocalDate;
 import java.util.List;       // 전체 회원 조회 결과(List<Member>)를 출력할 때 필요
 import java.util.Optional;   // null 대신 안전하게 값을 담을 수 있는 컨테이너
 import java.util.Scanner;    // 콘솔에서 사용자 입력을 읽기 위한 도구
@@ -37,11 +39,30 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
                 case "1": // "1"이면 회원 등록 로직 수행
                     System.out.print("등록할 회원 이름을 입력하세요: "); // 이름 입력 안내
                     String name = scanner.nextLine(); // 사용자로부터 이름 문자열 입력 받음
+
+                    System.out.print("이메일을 입력하세요: ");
+                    String email = scanner.nextLine();
+
+                    System.out.print("생년월일을 입력하세요: ");
+                    LocalDate birth = LocalDate.parse(scanner.nextLine());
+
+                    System.out.print("성별을 입력하세요 (MALE/FEMALE/OTHER): ");
+                    String genderInput = scanner.nextLine().toUpperCase();
+
                     if (name.trim().isEmpty()) {      // 공백만 입력하거나 빈 문자열이면
                         System.out.println("⚠️ 이름을 입력해주세요."); // 경고 메시지 출력
                         continue; // while의 다음 반복으로 넘어감(메뉴로 복귀)
                     }
-                    Long createdId = memberController.createMember(name); // 컨트롤러에 등록 요청을 보냄 → 내부적으로 서비스가 저장
+
+                    Gender gender; // 성별 값 예외 처리
+                    try {
+                        gender = Gender.valueOf(genderInput);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("⚠️ 유효하지 않은 성별입니다. OTHER로 설정됩니다.");
+                        gender = Gender.OTHER;
+                    }
+
+                    Long createdId = memberController.createMember(name, email, birth, gender); // 컨트롤러에 등록 요청을 보냄 → 내부적으로 서비스가 저장
                     if (createdId != null) { // 등록이 성공하면 ID가 반환됨
                         System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")"); // 성공 메시지
                     } else {
@@ -55,10 +76,13 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
                         Long id = Long.parseLong(scanner.nextLine()); // 문자열을 숫자(Long)로 변환 시도
                         Optional<Member> foundMember = memberController.findMemberById(id); // 컨트롤러로 조회 요청
                         if (foundMember.isPresent()) { // Optional 안에 실제 Member 객체가 있으면
-                            System.out.println(
-                                    "✅ 조회된 회원: ID=" + foundMember.get().getId() // get()으로 Optional에서 값 꺼냄
-                                            + ", 이름=" + foundMember.get().getName()
-                            );
+                            Member m = foundMember.get();
+                            System.out.println("✅ 조회된 회원:");
+                            System.out.println("   ID: " + m.getId());
+                            System.out.println("   이름: " + m.getName());
+                            System.out.println("   이메일: " + m.getEmail());
+                            System.out.println("   생년월일: " + m.getBirth());
+                            System.out.println("   성별: " + m.getGender());
                         } else { // Optional이 비어 있다면(해당 ID 없음)
                             System.out.println("⚠️ 해당 ID의 회원을 찾을 수 없습니다.");
                         }
@@ -75,7 +99,11 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
                     else { // 회원이 하나 이상 있으면 목록 출력
                         System.out.println("--- 📋 전체 회원 목록 📋 ---");
                         for (Member member : allMembers) { // 리스트를 순회하며 한 줄씩 출력
-                            System.out.println("👤 ID=" + member.getId() + ", 이름=" + member.getName());
+                            System.out.println("👤 ID=" + member.getId()
+                                    + ", 이름=" + member.getName()
+                                    + ", 이메일=" + member.getEmail()
+                                    + ", 생년월일=" + member.getBirth()
+                                    + ", 성별=" + member.getGender());
                         }
                         System.out.println("--------------------------");
                     }
