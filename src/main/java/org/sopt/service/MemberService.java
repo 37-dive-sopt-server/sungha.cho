@@ -17,4 +17,7 @@ public interface MemberService { // 서비스가 제공해야 할 기능(메서�
 
     // 전체 회원 조회: 저장된 모든 회원을 리스트로 반환
     List<Member> findAllMembers();
+
+    // 회원 삭제: 회원 ID 값으로 삭제 후 성공/실패 여부를 boolean 값으로 반환
+    boolean deleteMember(Long memberId);
 }

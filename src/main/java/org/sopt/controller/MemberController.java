@@ -36,4 +36,9 @@ public class MemberController { // 컨트롤러 클래스: Main(또는 외부)�
         // 서비스 계층에 '전체 회원 조회'를 위임
         return memberService.findAllMembers();
     }
+
+    // ID로 회원을 삭제하는 컨트롤러 메서드
+    public boolean deleteMember(Long id) {
+        return memberService.deleteMember(id);
+    }
 }

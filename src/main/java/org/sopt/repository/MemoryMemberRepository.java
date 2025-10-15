@@ -32,4 +32,13 @@ public class MemoryMemberRepository { // 메모리 기반 저장소 구현체(�
                 .filter(member -> member.getEmail().equalsIgnoreCase(email)) // 대소문자 구분 없이 비교
                 .findFirst();
     }
+
+    // 회원 삭제
+    public boolean deleteById(Long id) {
+        if (store.containsKey(id)) {
+            store.remove(id);
+            return true; // 삭제 성공
+        }
+        return false; // 해당 ID 없음
+    }
 }

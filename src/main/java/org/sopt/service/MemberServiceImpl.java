@@ -49,4 +49,10 @@ public class MemberServiceImpl implements MemberService { // 인터페이스를 
     public List<Member> findAllMembers() {
         return memberRepository.findAll(); // 저장소 위임
     }
+
+    // 회원 삭제: ID로 저장소에서 찾아 성공/실패 여부 반환
+    @Override
+    public boolean deleteMember(Long memberId) {
+        return memberRepository.deleteById(memberId);
+    }
 }
