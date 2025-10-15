@@ -1,5 +1,6 @@
 package org.sopt; // 이 파일이 포함된 패키지 경로(폴더 논리 이름). import에서 같은 패키지면 경로 생략 가능.
 
+import org.sopt.config.AppConfig;
 import org.sopt.controller.MemberController; // 컨트롤러(요청을 서비스에 전달하는 역할) 사용을 위해 불러온다.
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;               // Member 타입(도메인 객체)을 사용하기 위해 불러온다.
@@ -15,9 +16,8 @@ import java.util.Scanner;    // 콘솔에서 사용자 입력을 읽기 위한 �
 public class Main {          // 자바 애플리케이션의 시작 클래스 정의
     public static void main(String[] args) { // 자바 프로그램의 진입점(시작되는 메서드)
 
-        MemberRepository memberRepository = new MemoryMemberRepository(); // 메모리에 회원을 저장/조회할 저장소 인스턴스 생성
-        MemberServiceImpl memberService = new MemberServiceImpl(memberRepository);             // 비즈니스 로직을 담당할 서비스 인스턴스 생성
-        MemberController memberController = new MemberController(memberService);            // 요청을 받아 서비스로 전달할 컨트롤러 인스턴스 생성
+        AppConfig config = new AppConfig();
+        MemberController memberController = config.memberController(); // 컨트롤러 받아옴
 
         Scanner scanner = new Scanner(System.in); // 콘솔 입력(키보드)을 읽기 위한 스캐너 생성
 
