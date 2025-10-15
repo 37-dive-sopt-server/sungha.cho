@@ -3,6 +3,7 @@ package org.sopt; // 이 파일이 포함된 패키지 경로(폴더 논리 이�
 import org.sopt.controller.MemberController; // 컨트롤러(요청을 서비스에 전달하는 역할) 사용을 위해 불러온다.
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;               // Member 타입(도메인 객체)을 사용하기 위해 불러온다.
+import org.sopt.repository.MemberRepository;
 import org.sopt.repository.MemoryMemberRepository; // 메모리 저장소(Repository) 구현체를 사용하기 위해 불러온다.
 import org.sopt.service.MemberServiceImpl;   // 서비스 구현체를 사용하기 위해 불러온다.
 
@@ -14,10 +15,7 @@ import java.util.Scanner;    // 콘솔에서 사용자 입력을 읽기 위한 �
 public class Main {          // 자바 애플리케이션의 시작 클래스 정의
     public static void main(String[] args) { // 자바 프로그램의 진입점(시작되는 메서드)
 
-        // 아래 3개는 객체를 미리 만들어 둔 것.
-        // 하지만 실제로는 MemberController 내부에서 다시 new를 하기 때문에,
-        // 여기서 만든 두 개(memberRepository, memberService)는 사용되지 않음(Dead code).
-        MemoryMemberRepository memberRepository = new MemoryMemberRepository(); // 메모리에 회원을 저장/조회할 저장소 인스턴스 생성
+        MemberRepository memberRepository = new MemoryMemberRepository(); // 메모리에 회원을 저장/조회할 저장소 인스턴스 생성
         MemberServiceImpl memberService = new MemberServiceImpl(memberRepository);             // 비즈니스 로직을 담당할 서비스 인스턴스 생성
         MemberController memberController = new MemberController(memberService);            // 요청을 받아 서비스로 전달할 컨트롤러 인스턴스 생성
 

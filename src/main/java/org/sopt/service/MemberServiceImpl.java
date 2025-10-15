@@ -2,7 +2,7 @@ package org.sopt.service; // 서비스 구현체가 위치한 패키지
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;                   // 도메인 객체(Member) 사용
-import org.sopt.repository.MemoryMemberRepository; // 메모리 저장소 사용
+import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
 import java.util.List;     // 전체 조회 반환 타입
@@ -11,9 +11,9 @@ import java.util.Optional; // 단일 조회 반환 타입
 public class MemberServiceImpl implements MemberService { // 인터페이스를 실제로 구현
 
     // 외부(Main)에서 주입받을 repository - final로 선언
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     // 생성자를 통해 외부(Main)에서 Repository를 주입받음
-    public MemberServiceImpl(MemoryMemberRepository memberRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
