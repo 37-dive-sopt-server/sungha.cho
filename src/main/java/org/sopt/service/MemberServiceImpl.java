@@ -21,8 +21,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Long join(String name, String email, LocalDate birth, Gender gender) {
-        validator.validate(memberRepository, email, birth);
+    public Long join(String name, String email, LocalDate birth, String genderInput) {
+        validator.validate(memberRepository, email, birth, genderInput);
+
+        Gender gender = Gender.valueOf(genderInput.toUpperCase());
 
         Member member = new Member(sequence++, name, email, birth, gender);
         memberRepository.save(member);

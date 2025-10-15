@@ -16,8 +16,8 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public Long createMember(String name, String email, LocalDate birth, Gender gender) {
-        return memberService.join(name, email, birth, gender);
+    public Long createMember(String name, String email, LocalDate birth, String genderInput) {
+        return memberService.join(name, email, birth, genderInput);
     }
 
     public Optional<Member> findMemberById(Long id) {

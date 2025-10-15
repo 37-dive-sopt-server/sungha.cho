@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    Long join(String name, String email, LocalDate birth, Gender gender);
+    Long join(String name, String email, LocalDate birth, String gender);
 
     Optional<Member> findOne(Long memberId);
 

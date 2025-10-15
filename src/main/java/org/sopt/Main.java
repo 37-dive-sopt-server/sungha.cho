@@ -44,7 +44,7 @@ public class Main {
                     System.out.print("생년월일을 입력하세요: ");
                     LocalDate birth = LocalDate.parse(scanner.nextLine());
 
-                    System.out.print("성별을 입력하세요 (MALE/FEMALE/OTHER): ");
+                    System.out.print("성별을 입력하세요 (MALE/FEMALE): ");
                     String genderInput = scanner.nextLine().toUpperCase();
 
                     if (name.trim().isEmpty()) {
@@ -52,18 +52,10 @@ public class Main {
                         continue;
                     }
 
-                    Gender gender;
                     try {
-                        gender = Gender.valueOf(genderInput);
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("⚠️ 유효하지 않은 성별입니다. OTHER로 설정됩니다.");
-                        gender = Gender.OTHER;
-                    }
-
-                    try {
-                        Long createdId = memberController.createMember(name, email, birth, gender);
+                        Long createdId = memberController.createMember(name, email, birth, genderInput);
                         System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
-                    } catch (DuplicateEmailException | AgeException e) {
+                    } catch (RuntimeException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
