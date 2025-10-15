@@ -8,8 +8,13 @@ import java.util.Optional; // 단일 조회 반환 타입
 
 public class MemberServiceImpl implements MemberService { // 인터페이스를 실제로 구현
 
-    // 현재 구조: 구현체 내부에서 저장소 구현체를 직접 생성(new) → 결합도 높음
-    private MemoryMemberRepository memberRepository = new MemoryMemberRepository();
+    // 외부(Main)에서 주입받을 repository - final로 선언
+    private final MemoryMemberRepository memberRepository;
+
+    // 생성자를 통해 외부(Main)에서 Repository를 주입받음
+    public MemberServiceImpl(MemoryMemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     // 회원 ID 자동 증가를 위한 간단한 카운터(애플리케이션 실행 중에만 유효, 재시작하면 초기화됨)
     private static long sequence = 1L;

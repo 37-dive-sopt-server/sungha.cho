@@ -16,8 +16,8 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
         // 하지만 실제로는 MemberController 내부에서 다시 new를 하기 때문에,
         // 여기서 만든 두 개(memberRepository, memberService)는 사용되지 않음(Dead code).
         MemoryMemberRepository memberRepository = new MemoryMemberRepository(); // 메모리에 회원을 저장/조회할 저장소 인스턴스 생성
-        MemberServiceImpl memberService = new MemberServiceImpl();             // 비즈니스 로직을 담당할 서비스 인스턴스 생성
-        MemberController memberController = new MemberController();            // 요청을 받아 서비스로 전달할 컨트롤러 인스턴스 생성
+        MemberServiceImpl memberService = new MemberServiceImpl(memberRepository);             // 비즈니스 로직을 담당할 서비스 인스턴스 생성
+        MemberController memberController = new MemberController(memberService);            // 요청을 받아 서비스로 전달할 컨트롤러 인스턴스 생성
 
         Scanner scanner = new Scanner(System.in); // 콘솔 입력(키보드)을 읽기 위한 스캐너 생성
 

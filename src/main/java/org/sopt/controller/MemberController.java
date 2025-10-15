@@ -9,8 +9,13 @@ import java.util.Optional; // 단일 조회 반환 타입(값이 없을 수도 �
 
 public class MemberController { // 컨트롤러 클래스: Main(또는 외부)에서 호출되는 진입점
 
-    // 현재 구조: 구현체를 여기서 직접 생성 → 컨트롤러가 구현체에 '강하게' 의존(결합도 높음)
-    private MemberService memberService = new MemberServiceImpl();
+    // 외부(Main)에서 주입받을 서비스 - final로 선언
+    private final MemberService memberService;
+
+    // 생성자에서 의존성 주입
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     // 이름만 받아 회원 등록을 요청하는 컨트롤러 메서드
     public Long createMember(String name) {
