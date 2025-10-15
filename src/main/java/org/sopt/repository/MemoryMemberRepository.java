@@ -25,4 +25,11 @@ public class MemoryMemberRepository { // 메모리 기반 저장소 구현체(�
     public List<Member> findAll() {
         return new ArrayList<>(store.values()); // 컬렉션 복사본을 만들어 돌려주므로 외부에서 수정해도 내부 안전
     }
+
+    // 이메일로 회원 찾기 (중복 확인)
+    public Optional<Member> findByEmail(String email) {
+        return store.values().stream()
+                .filter(member -> member.getEmail().equalsIgnoreCase(email)) // 대소문자 구분 없이 비교
+                .findFirst();
+    }
 }

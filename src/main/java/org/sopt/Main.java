@@ -62,11 +62,11 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
                         gender = Gender.OTHER;
                     }
 
-                    Long createdId = memberController.createMember(name, email, birth, gender); // 컨트롤러에 등록 요청을 보냄 → 내부적으로 서비스가 저장
-                    if (createdId != null) { // 등록이 성공하면 ID가 반환됨
-                        System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")"); // 성공 메시지
-                    } else {
-                        System.out.println("❌ 회원 등록 실패"); // 예외적 상황(현재 코드에선 거의 발생 X)
+                    try {
+                        Long createdId = memberController.createMember(name, email, birth, gender);
+                        System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
+                    } catch (IllegalStateException e) {
+                        System.out.println("❌ " + e.getMessage()); // 이메일 중복 시 에러 메세지 출력
                     }
                     break; // switch 종료
 

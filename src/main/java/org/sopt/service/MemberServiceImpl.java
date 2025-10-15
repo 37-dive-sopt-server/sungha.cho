@@ -22,9 +22,20 @@ public class MemberServiceImpl implements MemberService { // 인터페이스를 
     // 회원 가입(등록) 로직: 사용자 정보를 받아서 새로운 Member를 만들고 저장한 뒤, 생성된 ID를 반환
     @Override
     public Long join(String name, String email, LocalDate birth, Gender gender) {
+        // 새로운 멤버 생성 전 이메일 중복 검사
+        validateDuplicateEmail(email);
+
         Member member = new Member(sequence++, name, email, birth, gender); // 현재 sequence 값을 ID로 쓰고, 다음을 위해 1 증가
         memberRepository.save(member);                // 저장소에 새 회원 저장
         return member.getId();                        // 생성된 회원의 고유 ID를 반환
+    }
+
+    // 이메일 중복 검사
+    private void validateDuplicateEmail(String email) {
+        Optional<Member> existing = memberRepository.findByEmail(email);
+        if (existing.isPresent()) {
+            throw new IllegalStateException("이미 등록된 이메일입니다: " + email);
+        }
     }
 
     // 단일 회원 조회: ID로 저장소에서 찾아 Optional<Member>로 반환
