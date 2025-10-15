@@ -1,6 +1,5 @@
 package org.sopt.controller;
 
-import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
 import org.sopt.service.MemberService;
 

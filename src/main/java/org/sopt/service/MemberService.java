@@ -1,6 +1,5 @@
 package org.sopt.service;
 
-import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
 
 import java.time.LocalDate;

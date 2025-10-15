@@ -2,10 +2,7 @@ package org.sopt;
 
 import org.sopt.config.AppConfig;
 import org.sopt.controller.MemberController;
-import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
-import org.sopt.exception.AgeException;
-import org.sopt.exception.DuplicateEmailException;
 
 import java.time.LocalDate;
 import java.util.List;

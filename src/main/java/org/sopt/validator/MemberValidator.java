@@ -1,6 +1,5 @@
 package org.sopt.validator;
 
-import org.sopt.domain.Gender;
 import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
