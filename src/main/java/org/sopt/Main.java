@@ -4,6 +4,7 @@ import org.sopt.config.AppConfig;
 import org.sopt.controller.MemberController; // 컨트롤러(요청을 서비스에 전달하는 역할) 사용을 위해 불러온다.
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;               // Member 타입(도메인 객체)을 사용하기 위해 불러온다.
+import org.sopt.exception.DuplicateEmailException;
 import org.sopt.repository.MemberRepository;
 import org.sopt.repository.MemoryMemberRepository; // 메모리 저장소(Repository) 구현체를 사용하기 위해 불러온다.
 import org.sopt.service.MemberServiceImpl;   // 서비스 구현체를 사용하기 위해 불러온다.
@@ -64,8 +65,8 @@ public class Main {          // 자바 애플리케이션의 시작 클래스 �
                     try {
                         Long createdId = memberController.createMember(name, email, birth, gender);
                         System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
-                    } catch (IllegalStateException e) {
-                        System.out.println("❌ " + e.getMessage()); // 이메일 중복 시 에러 메세지 출력
+                    } catch (DuplicateEmailException e) {
+                        System.out.println("❌ " + e.getMessage());
                     }
                     break; // switch 종료
 
