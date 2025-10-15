@@ -1,4 +1,4 @@
-package org.sopt.domain;
+package org.sopt.validator;
 
 import org.sopt.repository.MemberRepository;
 

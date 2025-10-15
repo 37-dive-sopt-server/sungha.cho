@@ -2,7 +2,7 @@ package org.sopt.service; // 서비스 구현체가 위치한 패키지
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;                   // 도메인 객체(Member) 사용
-import org.sopt.domain.MemberValidator;
+import org.sopt.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
