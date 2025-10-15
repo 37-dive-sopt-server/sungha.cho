@@ -14,7 +14,6 @@ public class MemberValidator {
         this.ageValidator = new AgeValidator();
     }
 
-    // 이메일 + 나이 검증
     public void validate(MemberRepository repo, String email, LocalDate birth) {
         emailValidator.checkDuplicateEmail(repo, email);
         ageValidator.checkAdult(birth);
