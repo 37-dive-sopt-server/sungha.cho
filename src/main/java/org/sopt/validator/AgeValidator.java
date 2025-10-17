@@ -10,7 +10,7 @@ public class AgeValidator {
     public void checkAdult(LocalDate birth) {
         int age = calculateAge(birth);
         if (age < 20) {
-            throw new AgeException(age);
+            throw new AgeException();
         }
     }
 
