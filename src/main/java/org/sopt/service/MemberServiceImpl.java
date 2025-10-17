@@ -2,6 +2,7 @@ package org.sopt.service;
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
+import org.sopt.exception.DuplicateEmailException;
 import org.sopt.exception.EmptyMemberListException;
 import org.sopt.exception.MemberNotFoundException;
 import org.sopt.validator.MemberValidator;
@@ -21,7 +22,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(String name, String email, LocalDate birth, String genderInput) {
-        MemberValidator.validate(memberRepository, name, email, birth, genderInput);
+        MemberValidator.validate(name, birth, genderInput);
+
+        memberRepository.findByEmail(email).ifPresent(m -> {
+            throw new DuplicateEmailException(email);
+        });
 
         Gender gender = Gender.valueOf(genderInput.toUpperCase());
         Member member = new Member(sequence++, name, email, birth, gender);

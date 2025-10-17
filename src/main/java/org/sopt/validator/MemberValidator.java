@@ -7,9 +7,8 @@ public class MemberValidator {
 
     private MemberValidator() {}
 
-    public static void validate(MemberRepository repo, String name, String email, LocalDate birth, String genderInput) {
+    public static void validate(String name, LocalDate birth, String genderInput) {
         NameValidator.validateName(name);
-        EmailValidator.checkDuplicateEmail(repo, email);
         AgeValidator.checkAdult(birth);
         GenderValidator.validateGender(genderInput);
     }
