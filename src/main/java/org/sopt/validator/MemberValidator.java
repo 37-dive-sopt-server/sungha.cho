@@ -1,8 +1,5 @@
 package org.sopt.validator;
 
-import org.sopt.repository.MemberRepository;
-import java.time.LocalDate;
-
 public class MemberValidator {
 
     private MemberValidator() {}
