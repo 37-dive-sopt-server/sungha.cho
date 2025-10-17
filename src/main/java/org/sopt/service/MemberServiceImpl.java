@@ -2,9 +2,9 @@ package org.sopt.service;
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
-import org.sopt.exception.DuplicateEmailException;
-import org.sopt.exception.EmptyMemberListException;
-import org.sopt.exception.MemberNotFoundException;
+import org.sopt.exception.customexception.DuplicateEmailException;
+import org.sopt.exception.customexception.EmptyMemberListException;
+import org.sopt.exception.customexception.MemberNotFoundException;
 import org.sopt.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
 

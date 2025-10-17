@@ -1,6 +1,6 @@
 package org.sopt.validator;
 
-import org.sopt.exception.AgeException;
+import org.sopt.exception.customexception.AgeException;
 
 public final class AgeValidator {
     private AgeValidator() {}

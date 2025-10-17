@@ -1,6 +1,6 @@
 package org.sopt.validator;
 
-import org.sopt.exception.InvalidNameException;
+import org.sopt.exception.customexception.InvalidNameException;
 
 public final class NameValidator {
     private NameValidator() {}

@@ -1,4 +1,6 @@
-package org.sopt.exception;
+package org.sopt.exception.customexception;
+
+import org.sopt.exception.constant.ErrorMessage;
 
 public class DuplicateEmailException extends RuntimeException {
     public DuplicateEmailException(String email) {

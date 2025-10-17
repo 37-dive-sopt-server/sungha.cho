@@ -1,6 +1,6 @@
 package org.sopt.domain;
 
-import org.sopt.exception.InvalidGenderException;
+import org.sopt.exception.customexception.InvalidGenderException;
 
 public enum Gender {
     MALE, FEMALE;
