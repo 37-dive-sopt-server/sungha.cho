@@ -23,11 +23,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Long join(String name, String email, LocalDate birth, String genderInput) {
         int age = Period.between(birth, LocalDate.now()).getYears();
-        MemberValidator.validate(name, age, genderInput);
+        MemberValidator.validate(name, age);
         memberRepository.findByEmail(email).ifPresent(m -> {
             throw new DuplicateEmailException(email);
         });
-        Gender gender = Gender.valueOf(genderInput.toUpperCase());
+        Gender gender = Gender.fromString(genderInput);
 
         Member member = new Member(null, name, email, birth, gender);
         Member savedMember = memberRepository.save(member);
