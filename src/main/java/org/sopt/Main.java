@@ -44,11 +44,6 @@ public class Main {
                     System.out.print("성별을 입력하세요 (MALE/FEMALE): ");
                     String genderInput = scanner.nextLine().toUpperCase();
 
-                    if (name.trim().isEmpty()) {
-                        System.out.println("⚠️ 이름을 입력해주세요.");
-                        continue;
-                    }
-
                     try {
                         Long createdId = memberController.createMember(name, email, birth, genderInput);
                         System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
@@ -61,29 +56,23 @@ public class Main {
                     System.out.print("조회할 회원 ID를 입력하세요: ");
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
-                        Optional<Member> foundMember = memberController.findMemberById(id);
-                        if (foundMember.isPresent()) {
-                            Member m = foundMember.get();
-                            System.out.println("✅ 조회된 회원:");
-                            System.out.println("   ID: " + m.getId());
-                            System.out.println("   이름: " + m.getName());
-                            System.out.println("   이메일: " + m.getEmail());
-                            System.out.println("   생년월일: " + m.getBirth());
-                            System.out.println("   성별: " + m.getGender());
-                        } else {
-                            System.out.println("⚠️ 해당 ID의 회원을 찾을 수 없습니다.");
-                        }
+                        Member m = memberController.findMemberById(id); // Optional 제거
+                        System.out.println("✅ 조회된 회원:");
+                        System.out.println("   ID: " + m.getId());
+                        System.out.println("   이름: " + m.getName());
+                        System.out.println("   이메일: " + m.getEmail());
+                        System.out.println("   생년월일: " + m.getBirth());
+                        System.out.println("   성별: " + m.getGender());
                     } catch (NumberFormatException e) {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 
                 case "3":
-                    List<Member> allMembers = memberController.getAllMembers();
-                    if (allMembers.isEmpty()) {
-                        System.out.println("ℹ️ 등록된 회원이 없습니다.");
-                    }
-                    else {
+                    try {
+                        List<Member> allMembers = memberController.getAllMembers();
                         System.out.println("--- 📋 전체 회원 목록 📋 ---");
                         for (Member member : allMembers) {
                             System.out.println("👤 ID=" + member.getId()
@@ -93,6 +82,8 @@ public class Main {
                                     + ", 성별=" + member.getGender());
                         }
                         System.out.println("--------------------------");
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -100,14 +91,12 @@ public class Main {
                     System.out.print("삭제할 회원의 ID를 입력하세요: ");
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
-                        boolean deleted = memberController.deleteMember(id);
-                        if (deleted) {
-                            System.out.println("✅ 회원(ID: " + id + ")이 성공적으로 삭제되었습니다.");
-                        } else {
-                            System.out.println("⚠️ 해당 ID의 회원을 찾을 수 없습니다.");
-                        }
+                        memberController.deleteMember(id); // boolean 반환 → 예외 방식으로 변경
+                        System.out.println("✅ 회원(ID: " + id + ")이 성공적으로 삭제되었습니다.");
                     } catch (NumberFormatException e) {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 

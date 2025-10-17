@@ -10,9 +10,9 @@ public interface MemberService {
 
     Long join(String name, String email, LocalDate birth, String gender);
 
-    Optional<Member> findOne(Long memberId);
+    Member findOne(Long memberId);
 
     List<Member> findAllMembers();
 
-    boolean deleteMember(Long memberId);
+    void deleteMember(Long memberId);
 }

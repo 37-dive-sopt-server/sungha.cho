@@ -2,6 +2,8 @@ package org.sopt.service;
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
+import org.sopt.exception.EmptyMemberListException;
+import org.sopt.exception.MemberNotFoundException;
 import org.sopt.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
 
@@ -22,27 +24,30 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(String name, String email, LocalDate birth, String genderInput) {
-        validator.validate(memberRepository, email, birth, genderInput);
+        validator.validate(memberRepository, name, email, birth, genderInput);
 
         Gender gender = Gender.valueOf(genderInput.toUpperCase());
-
         Member member = new Member(sequence++, name, email, birth, gender);
         memberRepository.save(member);
         return member.getId();
     }
 
     @Override
-    public Optional<Member> findOne(Long memberId) {
-        return memberRepository.findById(memberId);
+    public Member findOne(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
     }
 
     @Override
     public List<Member> findAllMembers() {
-        return memberRepository.findAll();
+        List<Member> members = memberRepository.findAll();
+        if (members.isEmpty()) throw new EmptyMemberListException();
+        return members;
     }
 
     @Override
-    public boolean deleteMember(Long memberId) {
-        return memberRepository.deleteById(memberId);
+    public void deleteMember(Long memberId) {
+        boolean deleted = memberRepository.deleteById(memberId);
+        if (!deleted) throw new MemberNotFoundException(memberId);
     }
 }

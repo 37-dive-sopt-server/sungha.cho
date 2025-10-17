@@ -19,7 +19,7 @@ public class MemberController {
         return memberService.join(name, email, birth, genderInput);
     }
 
-    public Optional<Member> findMemberById(Long id) {
+    public Member findMemberById(Long id) {
         return memberService.findOne(id);
     }
 
@@ -27,7 +27,7 @@ public class MemberController {
         return memberService.findAllMembers();
     }
 
-    public boolean deleteMember(Long id) {
-        return memberService.deleteMember(id);
+    public void deleteMember(Long id) {
+        memberService.deleteMember(id);
     }
 }
