@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Member {
 
-    private final Long id;
+    private Long id;
     private final String name;
     private final String email;
     private final LocalDate birth;
@@ -16,6 +16,10 @@ public class Member {
         this.email = email;
         this.birth = birth;
         this.gender = gender;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() { return id; }

@@ -15,7 +15,6 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private static long sequence = 1L;
 
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -25,15 +24,14 @@ public class MemberServiceImpl implements MemberService {
     public Long join(String name, String email, LocalDate birth, String genderInput) {
         int age = Period.between(birth, LocalDate.now()).getYears();
         MemberValidator.validate(name, age, genderInput);
-
         memberRepository.findByEmail(email).ifPresent(m -> {
             throw new DuplicateEmailException(email);
         });
-
         Gender gender = Gender.valueOf(genderInput.toUpperCase());
-        Member member = new Member(sequence++, name, email, birth, gender);
-        memberRepository.save(member);
-        return member.getId();
+
+        Member member = new Member(null, name, email, birth, gender);
+        Member savedMember = memberRepository.save(member);
+        return savedMember.getId();
     }
 
     @Override
