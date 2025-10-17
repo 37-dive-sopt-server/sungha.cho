@@ -12,13 +12,8 @@ public class AppConfig {
     public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
-
-    public MemberValidator memberValidator() {
-        return new MemberValidator();
-    }
-
     public MemberService memberService() {
-        return new MemberServiceImpl(memberRepository(), memberValidator());
+        return new MemberServiceImpl(memberRepository());
     }
 
     public MemberController memberController() {

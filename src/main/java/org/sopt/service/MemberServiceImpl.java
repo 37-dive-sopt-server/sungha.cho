@@ -9,22 +9,19 @@ import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final MemberValidator validator;
     private static long sequence = 1L;
 
-    public MemberServiceImpl(MemberRepository memberRepository, MemberValidator validator) {
+    public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.validator = validator;
     }
 
     @Override
     public Long join(String name, String email, LocalDate birth, String genderInput) {
-        validator.validate(memberRepository, name, email, birth, genderInput);
+        MemberValidator.validate(memberRepository, name, email, birth, genderInput);
 
         Gender gender = Gender.valueOf(genderInput.toUpperCase());
         Member member = new Member(sequence++, name, email, birth, gender);
