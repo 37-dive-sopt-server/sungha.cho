@@ -49,7 +49,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(Long memberId) {
-        boolean deleted = memberRepository.deleteById(memberId);
-        if (!deleted) throw new MemberNotFoundException(memberId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        memberRepository.deleteById(memberId);
     }
 }

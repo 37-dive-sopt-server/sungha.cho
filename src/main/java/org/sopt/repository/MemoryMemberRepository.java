@@ -34,11 +34,7 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        if (store.containsKey(id)) {
-            store.remove(id);
-            return true;
-        }
-        return false;
+    public void deleteById(Long id) {
+        store.remove(id);
     }
 }
