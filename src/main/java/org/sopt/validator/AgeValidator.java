@@ -2,14 +2,13 @@ package org.sopt.validator;
 
 import org.sopt.exception.AgeException;
 
-import java.time.LocalDate;
-import java.time.Period;
-
 public final class AgeValidator {
     private AgeValidator() {}
-    public static void checkAdult(LocalDate birth) {
-        int age = Period.between(birth, LocalDate.now()).getYears();
-        if (age < 20) {
+
+    private static final int MIN_AGE = 20;
+
+    public static void checkAdult(int age) {
+        if (age < MIN_AGE) {
             throw new AgeException();
         }
     }

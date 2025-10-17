@@ -9,6 +9,7 @@ import org.sopt.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class MemberServiceImpl implements MemberService {
@@ -22,7 +23,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(String name, String email, LocalDate birth, String genderInput) {
-        MemberValidator.validate(name, birth, genderInput);
+        int age = Period.between(birth, LocalDate.now()).getYears();
+        MemberValidator.validate(name, age, genderInput);
 
         memberRepository.findByEmail(email).ifPresent(m -> {
             throw new DuplicateEmailException(email);
