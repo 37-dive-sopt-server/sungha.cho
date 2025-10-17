@@ -1,6 +1,7 @@
 package org.sopt.config;
 
 import org.sopt.controller.MemberController;
+import org.sopt.repository.FileMemberRepository;
 import org.sopt.repository.MemberRepository;
 import org.sopt.repository.MemoryMemberRepository;
 import org.sopt.service.MemberService;
@@ -9,7 +10,7 @@ import org.sopt.service.MemberServiceImpl;
 public class AppConfig {
 
     public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
+        return new FileMemberRepository();
     }
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
