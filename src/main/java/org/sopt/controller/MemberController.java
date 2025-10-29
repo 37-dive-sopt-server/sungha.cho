@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/members")
+@RequestMapping("members")
 public class MemberController {
 
     @Autowired
@@ -20,12 +20,15 @@ public class MemberController {
     }
 
     @PostMapping
-    public Long createMember(String name, String email, LocalDate birth, String genderInput) {
-        return memberService.join(name, email, birth, genderInput);
+    public Long createMember(@RequestParam String name,
+                             @RequestParam String email,
+                             @RequestParam String birth,
+                             @RequestParam String gender) {
+        return memberService.join(name, email, LocalDate.parse(birth), gender);
     }
 
-    @GetMapping("/{id}")
-    public Member findMemberById(Long id) {
+    @GetMapping("/{memberId}")
+    public Member getMember(@PathVariable Long id) {
         return memberService.findOne(id);
     }
 
@@ -34,8 +37,8 @@ public class MemberController {
         return memberService.findAllMembers();
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteMember(Long id) {
+    @DeleteMapping("/{memberId}")
+    public void deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
     }
 }
