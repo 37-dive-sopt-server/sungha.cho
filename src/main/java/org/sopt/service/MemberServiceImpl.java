@@ -7,13 +7,17 @@ import org.sopt.exception.customexception.EmptyMemberListException;
 import org.sopt.exception.customexception.MemberNotFoundException;
 import org.sopt.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+@Service
 public class MemberServiceImpl implements MemberService {
 
+    @Autowired
     private final MemberRepository memberRepository;
 
     public MemberServiceImpl(MemberRepository memberRepository) {

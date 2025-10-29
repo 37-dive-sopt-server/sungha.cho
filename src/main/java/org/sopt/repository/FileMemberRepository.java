@@ -3,6 +3,7 @@ package org.sopt.repository;
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
 import org.sopt.exception.customexception.InternalException;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import java.util.*;
 
 import static org.sopt.exception.constant.ErrorMessage.*;
 
+@Repository
 public class FileMemberRepository implements MemberRepository {
     private static final String FILE_PATH = "members.txt";
     private static final int FIELD_SIZE = 5;
