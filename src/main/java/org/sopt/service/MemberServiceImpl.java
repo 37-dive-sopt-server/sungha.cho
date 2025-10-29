@@ -4,10 +4,9 @@ import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
 import org.sopt.dto.response.MemberInfoDto;
 import org.sopt.dto.request.MemberCreateDto;
-import org.sopt.exception.customexception.DuplicateEmailException;
-import org.sopt.exception.customexception.EmptyMemberListException;
-import org.sopt.exception.customexception.MemberNotFoundException;
-import org.sopt.validator.MemberValidator;
+import static org.sopt.global.exception.constant.ErrorCode.*;
+import org.sopt.global.exception.BusinessException;
+import org.sopt.global.validator.MemberValidator;
 import org.sopt.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +29,9 @@ public class MemberServiceImpl implements MemberService {
         int age = Period.between(birth, LocalDate.now()).getYears();
         MemberValidator.validate(req.name(), age);
 
-        memberRepository.findByEmail(req.email())
-                .ifPresent(m -> { throw new DuplicateEmailException(req.email()); });
+        if (memberRepository.findByEmail(req.email()).isPresent()) {
+            throw new BusinessException(DUPLICATE_EMAIL, req.email());
+        }
 
         Gender gender = Gender.fromString(req.gender());
 
@@ -45,21 +45,21 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberInfoDto findOne(Long memberId) {
         Member m = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(memberId));
+                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND, memberId));
         return MemberInfoDto.from(m);
     }
 
     @Override
     public List<MemberInfoDto> findAllMembers() {
         List<Member> list = memberRepository.findAll();
-        if (list.isEmpty()) throw new EmptyMemberListException();
+        if (list.isEmpty()) throw new BusinessException(EMPTY_MEMBER_LIST);
         return list.stream().map(MemberInfoDto::from).toList();
     }
 
     @Override
     public void deleteMember(Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(memberId));
+                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND, memberId));
         memberRepository.deleteById(memberId);
     }
 }

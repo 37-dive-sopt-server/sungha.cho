@@ -2,7 +2,6 @@ package org.sopt.repository;
 
 import org.sopt.domain.Gender;
 import org.sopt.domain.Member;
-import org.sopt.exception.customexception.InternalException;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -11,13 +10,14 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.sopt.exception.constant.ErrorMessage.*;
+import org.sopt.global.exception.BusinessException;
+import static org.sopt.global.exception.constant.ErrorCode.*;
 
 @Repository
 public class FileMemberRepository implements MemberRepository {
     private static final String FILE_PATH = "members.txt";
     private static final int FIELD_SIZE = 5;
-    private static final String HEADER = "id,name,birthDate,email,gender";
+    private static final String HEADER = "id,name,email,birthDate,gender";
 
     private final Map<Long, Member> idMap = new HashMap<>();
     private final Map<String, Long> emailMap = new HashMap<>();
@@ -39,7 +39,7 @@ public class FileMemberRepository implements MemberRepository {
                 }
             }
         } catch (IOException e) {
-            throw new InternalException(FILE_INIT_FAILED);
+            throw new BusinessException(FILE_INIT_FAILED);
         }
     }
 
@@ -96,7 +96,7 @@ public class FileMemberRepository implements MemberRepository {
                 updateSequence(member.getId());
             }
         } catch (IOException e) {
-            throw new InternalException(MEMBER_SAVE_FAILED);
+            throw new BusinessException(MEMBER_SAVE_FAILED);
         }
     }
 
@@ -119,7 +119,7 @@ public class FileMemberRepository implements MemberRepository {
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new InternalException(FILE_UPDATE_FAILED);
+            throw new BusinessException(FILE_UPDATE_FAILED);
         }
     }
 
@@ -128,7 +128,7 @@ public class FileMemberRepository implements MemberRepository {
     private Member parseLine(String line) {
         String[] parts = line.split(",");
         if (parts.length != FIELD_SIZE) {
-            throw new InternalException(MEMBER_SAVE_FAILED);
+            throw new BusinessException(MEMBER_SAVE_FAILED);
         }
 
         try {
@@ -139,7 +139,7 @@ public class FileMemberRepository implements MemberRepository {
             Gender gender = Gender.valueOf(parts[4].toUpperCase());
             return new Member(id, name, email, birthDate, gender);
         } catch (RuntimeException e) {
-            throw new InternalException(MEMBER_SAVE_FAILED);
+            throw new BusinessException(MEMBER_SAVE_FAILED);
         }
     }
 

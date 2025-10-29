@@ -1,18 +1,19 @@
 package org.sopt.domain;
 
-import org.sopt.exception.customexception.InvalidGenderException;
+import org.sopt.global.exception.BusinessException;
+import static org.sopt.global.exception.constant.ErrorCode.INVALID_GENDER;
 
 public enum Gender {
     MALE, FEMALE;
 
     public static Gender fromString(String input) {
         if (input == null) {
-            throw new InvalidGenderException(" ");
+            throw new BusinessException(INVALID_GENDER, " ");
         }
         try {
             return Gender.valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new InvalidGenderException(input);
+            throw new BusinessException(INVALID_GENDER, input);
         }
     }
 }
