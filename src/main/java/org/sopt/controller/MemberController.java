@@ -3,14 +3,13 @@ package org.sopt.controller;
 import org.sopt.domain.Member;
 import org.sopt.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/members")
 public class MemberController {
 
     @Autowired
@@ -20,21 +19,22 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public Long createMember(String name, String email, LocalDate birth, String genderInput) {
         return memberService.join(name, email, birth, genderInput);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/{id}")
     public Member findMemberById(Long id) {
         return memberService.findOne(id);
     }
 
-    @GetMapping("/users/all")
+    @GetMapping
     public List<Member> getAllMembers() {
         return memberService.findAllMembers();
     }
 
+    @DeleteMapping("/{id}")
     public void deleteMember(Long id) {
         memberService.deleteMember(id);
     }
