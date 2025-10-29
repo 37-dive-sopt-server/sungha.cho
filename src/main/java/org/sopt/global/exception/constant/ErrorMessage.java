@@ -1,4 +1,4 @@
-package org.sopt.exception.constant;
+package org.sopt.global.exception.constant;
 
 public class ErrorMessage {
 

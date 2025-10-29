@@ -1,4 +1,4 @@
-package org.sopt.validator;
+package org.sopt.global.validator;
 
 public class MemberValidator {
 
