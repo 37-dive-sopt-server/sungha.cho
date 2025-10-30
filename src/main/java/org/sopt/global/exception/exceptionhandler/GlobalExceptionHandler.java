@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = e.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getStatus())
-                .body(ApiResponse.fail(errorCode.getStatus(), errorCode.getCode(), errorCode.getMessage()));
+                .body(ApiResponse.fail(errorCode.getStatus().value(), errorCode.getMessage()));
     }
 
     // IllegalArgumentException 처리
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.fail(HttpStatus.BAD_REQUEST, "BAD_REQUEST", e.getMessage()));
+                .body(ApiResponse.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
 
     // DateTimeParseException 처리 (날짜 형식 오류)
@@ -35,13 +35,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleDateTimeParseException(DateTimeParseException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.fail(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "형식이 올바르지 않습니다. 'yyyy-MM-dd' 형식으로 다시 입력해주세요."));
+                .body(ApiResponse.fail(HttpStatus.BAD_REQUEST.value(), "형식이 올바르지 않습니다. 'yyyy-MM-dd' 형식으로 다시 입력해주세요."));
     }
 
     // 기타 예외 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.fail(HttpStatus.INTERNAL_SERVER_ERROR, "500", "서버 내부 오류 발생"));
+                .body(ApiResponse.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(),"서버 내부 오류 발생"));
     }
 }
