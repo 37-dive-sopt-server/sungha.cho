@@ -1,7 +1,7 @@
 package org.sopt.global.validator;
 
+import org.sopt.global.exception.MemberException;
 import org.sopt.global.exception.constant.ErrorCode;
-import org.sopt.global.exception.BusinessException;
 
 public final class AgeValidator {
     private AgeValidator() {}
@@ -10,7 +10,7 @@ public final class AgeValidator {
 
     public static void checkAdult(int age) {
         if (age < MIN_AGE) {
-            throw new BusinessException(ErrorCode.UNDER_AGE);
+            throw new MemberException(ErrorCode.UNDER_AGE);
         }
     }
 }
