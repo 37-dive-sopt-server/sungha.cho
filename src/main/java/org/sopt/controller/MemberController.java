@@ -1,14 +1,10 @@
 package org.sopt.controller;
 
-import org.sopt.domain.Member;
 import org.sopt.dto.request.MemberCreateDto;
 import org.sopt.dto.response.MemberInfoDto;
 import org.sopt.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.sopt.global.response.ApiResponse;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,23 +18,26 @@ public class MemberController {
     }
 
     @PostMapping
-    public MemberInfoDto create(@RequestBody MemberCreateDto req) {
-        return memberService.join(req);
+    public ApiResponse<MemberInfoDto> create(@RequestBody MemberCreateDto req) {
+        MemberInfoDto member = memberService.join(req);
+        return ApiResponse.ok(member);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberInfoDto> getMember(@PathVariable Long memberId) {
-        return ResponseEntity.ok(memberService.findOne(memberId));
+    public ApiResponse<MemberInfoDto> getMember(@PathVariable Long memberId) {
+        MemberInfoDto member = memberService.findOne(memberId);
+        return ApiResponse.ok(member);
     }
 
     @GetMapping
-    public ResponseEntity<List<MemberInfoDto>> getAllMembers() {
-        return ResponseEntity.ok(memberService.findAllMembers());
+    public ApiResponse<List<MemberInfoDto>> getAllMembers() {
+        List<MemberInfoDto> members = memberService.findAllMembers();
+        return ApiResponse.ok(members);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
+    public ApiResponse<Void> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.ok(null);
     }
 }
