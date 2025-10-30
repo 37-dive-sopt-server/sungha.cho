@@ -3,13 +3,6 @@ package org.sopt.global.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
-import java.time.Instant;
-
-/**
- * 모든 API 응답을 한 포맷으로 감싸는 래퍼
- * - 성공: success=true, data 채움
- * - 실패: success=false, message/code/status 채움
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
