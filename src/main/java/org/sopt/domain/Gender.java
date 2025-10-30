@@ -8,12 +8,12 @@ public enum Gender {
 
     public static Gender fromString(String input) {
         if (input == null) {
-            throw new BusinessException(INVALID_GENDER, " ");
+            throw new BusinessException(INVALID_GENDER);
         }
         try {
             return Gender.valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new BusinessException(INVALID_GENDER, input);
+            throw new BusinessException(INVALID_GENDER);
         }
     }
 }

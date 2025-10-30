@@ -25,12 +25,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoDto join(MemberCreateDto req) {
-        LocalDate birth = LocalDate.parse(req.birthDate()); // "YYYY-MM-DD"
+        LocalDate birth = LocalDate.parse(req.birthDate());
         int age = Period.between(birth, LocalDate.now()).getYears();
         MemberValidator.validate(req.name(), age);
 
         if (memberRepository.findByEmail(req.email()).isPresent()) {
-            throw new BusinessException(DUPLICATE_EMAIL, req.email());
+            throw new BusinessException(DUPLICATE_EMAIL);
         }
 
         Gender gender = Gender.fromString(req.gender());
@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberInfoDto findOne(Long memberId) {
         Member m = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND, memberId));
+                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
         return MemberInfoDto.from(m);
     }
 
@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND, memberId));
+                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
         memberRepository.deleteById(memberId);
     }
 }
