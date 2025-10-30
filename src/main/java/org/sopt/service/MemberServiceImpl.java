@@ -6,7 +6,8 @@ import org.sopt.dto.response.MemberInfoDto;
 import org.sopt.dto.request.MemberCreateDto;
 import static org.sopt.global.exception.constant.ErrorCode.*;
 import org.sopt.global.exception.MemberException;
-import org.sopt.global.validator.MemberValidator;
+import org.sopt.global.validator.AgeValidator;
+import org.sopt.global.validator.NameValidator;
 import org.sopt.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,8 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfoDto join(MemberCreateDto req) {
         LocalDate birth = LocalDate.parse(req.birthDate());
         int age = Period.between(birth, LocalDate.now()).getYears();
-        MemberValidator.validate(req.name(), age);
+        NameValidator.validateName(req.name());
+        AgeValidator.checkAdult(age);
 
         if (memberRepository.findByEmail(req.email()).isPresent()) {
             throw new MemberException(DUPLICATE_EMAIL);
