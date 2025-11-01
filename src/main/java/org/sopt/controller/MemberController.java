@@ -1,11 +1,14 @@
 package org.sopt.controller;
 
-import org.sopt.domain.Member;
+import org.sopt.dto.request.MemberCreateDto;
+import org.sopt.dto.response.MemberInfoDto;
 import org.sopt.service.MemberService;
-
-import java.time.LocalDate;
+import org.sopt.global.response.ApiResponse;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@RestController
+@RequestMapping("members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -14,19 +17,27 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public Long createMember(String name, String email, LocalDate birth, String genderInput) {
-        return memberService.join(name, email, birth, genderInput);
+    @PostMapping
+    public ApiResponse<MemberInfoDto> create(@RequestBody MemberCreateDto req) {
+        MemberInfoDto member = memberService.join(req);
+        return ApiResponse.ok(member);
     }
 
-    public Member findMemberById(Long id) {
-        return memberService.findOne(id);
+    @GetMapping("/{memberId}")
+    public ApiResponse<MemberInfoDto> getMember(@PathVariable Long memberId) {
+        MemberInfoDto member = memberService.findOne(memberId);
+        return ApiResponse.ok(member);
     }
 
-    public List<Member> getAllMembers() {
-        return memberService.findAllMembers();
+    @GetMapping
+    public ApiResponse<List<MemberInfoDto>> getAllMembers() {
+        List<MemberInfoDto> members = memberService.findAllMembers();
+        return ApiResponse.ok(members);
     }
 
-    public void deleteMember(Long id) {
-        memberService.deleteMember(id);
+    @DeleteMapping("/{memberId}")
+    public ApiResponse<Void> deleteMember(@PathVariable Long memberId) {
+        memberService.deleteMember(memberId);
+        return ApiResponse.ok(null);
     }
 }
