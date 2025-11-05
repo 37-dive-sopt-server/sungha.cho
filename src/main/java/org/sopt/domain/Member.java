@@ -1,14 +1,27 @@
 package org.sopt.domain;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Member {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String name;
-    private final String email;
-    private final LocalDate birth;
-    private final Gender gender;
+    private String name;
+    private String email;
+    private LocalDate birth;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    protected Member() {}
+
+    @OneToMany(mappedBy = "member")
+    private List<Article> articles = new ArrayList<>();
 
     public Member(Long id, String name, String email, LocalDate birth, Gender gender) {
         this.id = id;
