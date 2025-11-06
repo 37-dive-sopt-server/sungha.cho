@@ -1,5 +1,6 @@
 package org.sopt.member.service;
 
+import lombok.*;
 import org.sopt.member.domain.Gender;
 import org.sopt.member.domain.Member;
 import org.sopt.member.dto.response.MemberInfoDto;
@@ -16,13 +17,10 @@ import java.time.Period;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 
     @Override
     public MemberInfoDto join(MemberCreateDto req) {
@@ -38,7 +36,12 @@ public class MemberServiceImpl implements MemberService {
         Gender gender = Gender.fromString(req.gender());
 
         Member saved = memberRepository.save(
-                new Member(null, req.name(), req.email(), birth, gender)
+                Member.builder()
+                        .name(req.name())
+                        .email(req.email())
+                        .birth(birth)
+                        .gender(gender)
+                        .build()
         );
 
         return MemberInfoDto.from(saved);

@@ -1,5 +1,6 @@
 package org.sopt.member.controller;
 
+import lombok.*;
 import org.sopt.member.dto.request.MemberCreateDto;
 import org.sopt.member.dto.response.MemberInfoDto;
 import org.sopt.member.service.MemberService;
@@ -9,13 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("members")
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @PostMapping
     public ApiResponse<MemberInfoDto> create(@RequestBody MemberCreateDto req) {

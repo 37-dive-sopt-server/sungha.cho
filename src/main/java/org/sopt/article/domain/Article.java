@@ -1,12 +1,16 @@
 package org.sopt.article.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.sopt.member.domain.Member;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "article")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 기본 생성자
+@AllArgsConstructor                                 // 모든 필드 포함 생성자
+@Builder                                            // 빌더 패턴 적용
 public class Article {
 
     @Id
@@ -32,52 +36,17 @@ public class Article {
     @Column(nullable = false)
     private String content;
 
-    // 작성일 (자동 저장)
+    // 작성일
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // 기본 생성자 (JPA용)
-    protected Article() {}
 
-    // 생성자 (모든 필드 초기화)
-    public Article(Member member, Tag tag, String title, String content) {
+    @Builder
+    public Article(Member member, Tag tag, String title, String content, LocalDateTime createdAt) {
         this.member = member;
         this.tag = tag;
         this.title = title;
         this.content = content;
-        this.createdAt = LocalDateTime.now(); // 생성 시점 자동 저장
-    }
-
-    // getter 메서드들
-    public Long getId() {
-        return id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public Tag getTag() {
-        return tag;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    // 작성자(Member) 지정용 편의 메서드
-    public void assignMember(Member member) {
-        this.member = member;
-        if (member != null && !member.getArticles().contains(this)) {
-            member.getArticles().add(this);
-        }
+        this.createdAt = (createdAt != null) ? createdAt : LocalDateTime.now();
     }
 }
