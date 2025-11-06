@@ -1,6 +1,7 @@
-package org.sopt.domain;
+package org.sopt.member.domain;
 
 import jakarta.persistence.*;
+import org.sopt.article.domain.Article;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

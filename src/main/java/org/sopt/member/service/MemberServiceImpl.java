@@ -1,14 +1,14 @@
-package org.sopt.service;
+package org.sopt.member.service;
 
-import org.sopt.domain.Gender;
-import org.sopt.domain.Member;
-import org.sopt.dto.response.MemberInfoDto;
-import org.sopt.dto.request.MemberCreateDto;
+import org.sopt.member.domain.Gender;
+import org.sopt.member.domain.Member;
+import org.sopt.member.dto.response.MemberInfoDto;
+import org.sopt.member.dto.request.MemberCreateDto;
 import static org.sopt.global.exception.constant.ErrorCode.*;
 import org.sopt.global.exception.MemberException;
 import org.sopt.global.validator.AgeValidator;
 import org.sopt.global.validator.NameValidator;
-import org.sopt.repository.MemberRepository;
+import org.sopt.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.sopt.dto.request;
+package org.sopt.member.dto.request;
 
 public record MemberCreateDto(
         String name,
