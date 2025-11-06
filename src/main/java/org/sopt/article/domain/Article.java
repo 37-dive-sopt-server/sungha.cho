@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "article")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 기본 생성자
-@AllArgsConstructor                                 // 모든 필드 포함 생성자
-@Builder                                            // 빌더 패턴 적용
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Article {
 
     @Id
@@ -22,13 +22,9 @@ public class Article {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    // 태그(분야)
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private Tag tag;
 
     // 제목
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     private String title;
 
     // 내용
@@ -36,14 +32,18 @@ public class Article {
     @Column(nullable = false)
     private String content;
 
+    // 태그(분야)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Tag tag;
+
     // 작성일
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-
     @Builder
-    public Article(Member member, Tag tag, String title, String content, LocalDateTime createdAt) {
-        this.member = member;
+    public Article(long id, Tag tag, String title, String content, LocalDateTime createdAt) {
+        this.id = id;
         this.tag = tag;
         this.title = title;
         this.content = content;
