@@ -15,7 +15,8 @@ public enum ErrorCode {
     FILE_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "FILE_UPDATE_FAILED", "⚠️ 파일 저장 중 오류가 발생했습니다."),
 
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE_NOT_FOUND", "⚠️ 해당 ID의 아티클을 찾을 수 없습니다."),
-    INVALID_TAG(HttpStatus.BAD_REQUEST, "INVALID_TAG", "⚠️ 태그는 CS/DB/SPRING/ETC 중 하나여야 합니다.");
+    INVALID_TAG(HttpStatus.BAD_REQUEST, "INVALID_TAG", "⚠️ 태그는 CS/DB/SPRING/ETC 중 하나여야 합니다."),
+    EMPTY_ARTICLE_LIST(HttpStatus.NOT_FOUND, "EMPTY_ARTICLE_LIST", "ℹ️ 등록된 아티클이 없습니다.");
 
 
     private final HttpStatus status;

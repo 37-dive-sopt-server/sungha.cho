@@ -1,6 +1,6 @@
 package org.sopt.article.service;
 
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.sopt.article.domain.Article;
 import org.sopt.article.domain.Tag;
 import org.sopt.article.dto.request.ArticleCreateDto;
@@ -12,9 +12,9 @@ import org.sopt.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.sopt.global.exception.constant.ErrorCode.MEMBER_NOT_FOUND;
-import static org.sopt.global.exception.constant.ErrorCode.ARTICLE_NOT_FOUND;
+import static org.sopt.global.exception.constant.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +25,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleInfoDto create(ArticleCreateDto req) {
-        // 작성자 조회
         Member author = memberRepository.findById(req.memberId())
                 .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
 
-        // 태그 파싱 (CS/DB/SPRING/ETC)
         Tag tag = Tag.fromString(req.tag());
 
-        // 엔티티 생성 (createdAt 기본값 now)
         Article saved = articleRepository.save(
                 Article.builder()
                         .member(author)
@@ -42,7 +39,6 @@ public class ArticleServiceImpl implements ArticleService {
                         .createdAt(LocalDateTime.now())
                         .build()
         );
-
         return ArticleInfoDto.from(saved);
     }
 
@@ -51,5 +47,12 @@ public class ArticleServiceImpl implements ArticleService {
         Article a = articleRepository.findById(articleId)
                 .orElseThrow(() -> new BusinessException(ARTICLE_NOT_FOUND));
         return ArticleInfoDto.from(a);
+    }
+
+    @Override
+    public List<ArticleInfoDto> findAll() {
+        List<Article> list = articleRepository.findAllByOrderByCreatedAtDesc();
+        if (list.isEmpty()) throw new BusinessException(EMPTY_ARTICLE_LIST);
+        return list.stream().map(ArticleInfoDto::from).toList();
     }
 }

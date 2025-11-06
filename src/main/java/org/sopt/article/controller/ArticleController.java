@@ -8,6 +8,8 @@ import org.sopt.article.service.ArticleService;
 import org.sopt.global.response.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("articles")
 @RequiredArgsConstructor
@@ -25,5 +27,11 @@ public class ArticleController {
     @GetMapping("/{articleId}")
     public ApiResponse<ArticleInfoDto> getOne(@PathVariable Long articleId) {
         return ApiResponse.ok(articleService.findOne(articleId));
+    }
+
+    // 전체 조회
+    @GetMapping
+    public ApiResponse<List<ArticleInfoDto>> getAll() {
+        return ApiResponse.ok(articleService.findAll());
     }
 }
