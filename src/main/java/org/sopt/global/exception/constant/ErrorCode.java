@@ -16,7 +16,9 @@ public enum ErrorCode {
 
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE_NOT_FOUND", "⚠️ 해당 ID의 아티클을 찾을 수 없습니다."),
     INVALID_TAG(HttpStatus.BAD_REQUEST, "INVALID_TAG", "⚠️ 태그는 CS/DB/SPRING/ETC 중 하나여야 합니다."),
-    EMPTY_ARTICLE_LIST(HttpStatus.NOT_FOUND, "EMPTY_ARTICLE_LIST", "ℹ️ 등록된 아티클이 없습니다.");
+    EMPTY_ARTICLE_LIST(HttpStatus.NOT_FOUND, "EMPTY_ARTICLE_LIST", "ℹ️ 등록된 아티클이 없습니다."),
+    DUPLICATE_ARTICLE_TITLE(HttpStatus.CONFLICT, "DUPLICATE_ARTICLE_TITLE", "⚠️ 이미 등록된 게시글 제목입니다.");
+
 
 
     private final HttpStatus status;

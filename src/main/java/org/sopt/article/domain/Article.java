@@ -6,7 +6,12 @@ import org.sopt.member.domain.Member;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "article")
+@Table(
+        name = "article",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "title")
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -22,9 +27,8 @@ public class Article {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-
     // 제목
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     // 내용

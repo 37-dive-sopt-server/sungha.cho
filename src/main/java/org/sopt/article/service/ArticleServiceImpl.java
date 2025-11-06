@@ -6,6 +6,7 @@ import org.sopt.article.domain.Tag;
 import org.sopt.article.dto.request.ArticleCreateDto;
 import org.sopt.article.dto.response.ArticleInfoDto;
 import org.sopt.article.repository.ArticleRepository;
+import org.sopt.global.exception.ArticleException;
 import org.sopt.global.exception.BusinessException;
 import org.sopt.member.domain.Member;
 import org.sopt.member.repository.MemberRepository;
@@ -26,7 +27,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleInfoDto create(ArticleCreateDto req) {
         Member author = memberRepository.findById(req.memberId())
-                .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new ArticleException(MEMBER_NOT_FOUND));
+
+        if (articleRepository.findByTitle(req.title()).isPresent()) {
+            throw new ArticleException(DUPLICATE_ARTICLE_TITLE);
+        }
 
         Tag tag = Tag.fromString(req.tag());
 
@@ -45,14 +50,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleInfoDto findOne(Long articleId) {
         Article a = articleRepository.findById(articleId)
-                .orElseThrow(() -> new BusinessException(ARTICLE_NOT_FOUND));
+                .orElseThrow(() -> new ArticleException(ARTICLE_NOT_FOUND));
         return ArticleInfoDto.from(a);
     }
 
     @Override
     public List<ArticleInfoDto> findAll() {
         List<Article> list = articleRepository.findAllByOrderByCreatedAtDesc();
-        if (list.isEmpty()) throw new BusinessException(EMPTY_ARTICLE_LIST);
+        if (list.isEmpty()) throw new ArticleException(EMPTY_ARTICLE_LIST);
         return list.stream().map(ArticleInfoDto::from).toList();
     }
 }
