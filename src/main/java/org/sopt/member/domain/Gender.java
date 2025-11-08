@@ -1,4 +1,4 @@
-package org.sopt.domain;
+package org.sopt.member.domain;
 
 import org.sopt.global.exception.BusinessException;
 import static org.sopt.global.exception.constant.ErrorCode.INVALID_GENDER;

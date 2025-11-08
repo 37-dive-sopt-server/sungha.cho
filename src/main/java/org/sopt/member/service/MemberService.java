@@ -1,7 +1,7 @@
-package org.sopt.service;
+package org.sopt.member.service;
 
-import org.sopt.dto.request.MemberCreateDto;
-import org.sopt.dto.response.MemberInfoDto;
+import org.sopt.member.dto.request.MemberCreateDto;
+import org.sopt.member.dto.response.MemberInfoDto;
 
 import java.util.List;
 

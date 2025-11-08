@@ -1,21 +1,19 @@
-package org.sopt.controller;
+package org.sopt.member.controller;
 
-import org.sopt.dto.request.MemberCreateDto;
-import org.sopt.dto.response.MemberInfoDto;
-import org.sopt.service.MemberService;
+import lombok.*;
+import org.sopt.member.dto.request.MemberCreateDto;
+import org.sopt.member.dto.response.MemberInfoDto;
+import org.sopt.member.service.MemberService;
 import org.sopt.global.response.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("members")
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @PostMapping
     public ApiResponse<MemberInfoDto> create(@RequestBody MemberCreateDto req) {

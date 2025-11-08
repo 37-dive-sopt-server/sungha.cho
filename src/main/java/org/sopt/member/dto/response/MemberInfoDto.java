@@ -1,7 +1,7 @@
-package org.sopt.dto.response;
+package org.sopt.member.dto.response;
 
-import org.sopt.domain.Member;
-import org.sopt.domain.Gender;
+import org.sopt.member.domain.Member;
+import org.sopt.member.domain.Gender;
 
 import java.time.LocalDate;
 

@@ -1,14 +1,15 @@
-package org.sopt.service;
+package org.sopt.member.service;
 
-import org.sopt.domain.Gender;
-import org.sopt.domain.Member;
-import org.sopt.dto.response.MemberInfoDto;
-import org.sopt.dto.request.MemberCreateDto;
+import lombok.*;
+import org.sopt.member.domain.Gender;
+import org.sopt.member.domain.Member;
+import org.sopt.member.dto.response.MemberInfoDto;
+import org.sopt.member.dto.request.MemberCreateDto;
 import static org.sopt.global.exception.constant.ErrorCode.*;
 import org.sopt.global.exception.MemberException;
 import org.sopt.global.validator.AgeValidator;
 import org.sopt.global.validator.NameValidator;
-import org.sopt.repository.MemberRepository;
+import org.sopt.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,13 +17,10 @@ import java.time.Period;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 
     @Override
     public MemberInfoDto join(MemberCreateDto req) {
@@ -38,7 +36,12 @@ public class MemberServiceImpl implements MemberService {
         Gender gender = Gender.fromString(req.gender());
 
         Member saved = memberRepository.save(
-                new Member(null, req.name(), req.email(), birth, gender)
+                Member.builder()
+                        .name(req.name())
+                        .email(req.email())
+                        .birth(birth)
+                        .gender(gender)
+                        .build()
         );
 
         return MemberInfoDto.from(saved);
