@@ -49,9 +49,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleInfoDto findOne(Long articleId) {
-        Article a = articleRepository.findById(articleId)
+        Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ARTICLE_NOT_FOUND));
-        return ArticleInfoDto.from(a);
+        return ArticleInfoDto.from(article);
     }
 
     @Override
