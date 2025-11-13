@@ -67,4 +67,10 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
         memberRepository.deleteById(memberId);
     }
+
+    @Override
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+    }
 }

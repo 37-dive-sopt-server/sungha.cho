@@ -10,6 +10,7 @@ import org.sopt.global.exception.ArticleException;
 import org.sopt.global.exception.BusinessException;
 import org.sopt.member.domain.Member;
 import org.sopt.member.repository.MemberRepository;
+import org.sopt.member.service.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,12 +23,11 @@ import static org.sopt.global.exception.constant.ErrorCode.*;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Override
     public ArticleInfoDto create(ArticleCreateDto req) {
-        Member author = memberRepository.findById(req.memberId())
-                .orElseThrow(() -> new ArticleException(MEMBER_NOT_FOUND));
+        Member author = memberService.findMemberById(req.memberId());
 
         if (articleRepository.findByTitle(req.title()).isPresent()) {
             throw new ArticleException(DUPLICATE_ARTICLE_TITLE);
