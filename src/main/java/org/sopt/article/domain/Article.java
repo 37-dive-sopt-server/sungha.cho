@@ -9,12 +9,7 @@ import org.sopt.member.domain.Member;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-        name = "article",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "title")
-        }
-)
+@Table(name = "article")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
