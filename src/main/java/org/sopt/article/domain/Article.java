@@ -25,21 +25,17 @@ public class Article {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    // 제목
     @Column(nullable = false, unique = true)
     private String title;
 
-    // 내용
     @Lob
     @Column(nullable = false)
     private String content;
 
-    // 태그(분야)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Tag tag;
 
-    // 작성일 (엔티티 최초 생성 시 자동 저장)
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
