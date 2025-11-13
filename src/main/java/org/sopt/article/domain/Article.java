@@ -2,7 +2,10 @@ package org.sopt.article.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.sopt.member.domain.Member;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -41,16 +44,8 @@ public class Article {
     @Column(nullable = false)
     private Tag tag;
 
-    // 작성일
+    // 작성일 (엔티티 최초 생성 시 자동 저장)
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @Builder
-    public Article(long id, Tag tag, String title, String content, LocalDateTime createdAt) {
-        this.id = id;
-        this.tag = tag;
-        this.title = title;
-        this.content = content;
-        this.createdAt = (createdAt != null) ? createdAt : LocalDateTime.now();
-    }
 }
