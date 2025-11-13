@@ -57,7 +57,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleInfoDto> findAll() {
         List<Article> list = articleRepository.findAllByOrderByCreatedAtDesc();
-        if (list.isEmpty()) throw new ArticleException(EMPTY_ARTICLE_LIST);
+        if (list.isEmpty()) {
+            throw new ArticleException(EMPTY_ARTICLE_LIST);
+        }
         return list.stream().map(ArticleInfoDto::from).toList();
     }
 }
