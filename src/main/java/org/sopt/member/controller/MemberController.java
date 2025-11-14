@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("members")
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
     @PostMapping
-    public ApiResponse<MemberInfoDto> create(@RequestBody MemberCreateDto req) {
+    public ApiResponse<MemberInfoDto> createMember(@RequestBody MemberCreateDto req) {
         MemberInfoDto member = memberService.join(req);
         return ApiResponse.ok(member);
     }

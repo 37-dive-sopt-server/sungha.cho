@@ -1,5 +1,6 @@
 package org.sopt.member.service;
 
+import org.sopt.member.domain.Member;
 import org.sopt.member.dto.request.MemberCreateDto;
 import org.sopt.member.dto.response.MemberInfoDto;
 
@@ -10,4 +11,5 @@ public interface MemberService {
     MemberInfoDto findOne(Long memberId);
     List<MemberInfoDto> findAllMembers();
     void deleteMember(Long memberId);
+    Member findMemberById(Long memberId);
 }

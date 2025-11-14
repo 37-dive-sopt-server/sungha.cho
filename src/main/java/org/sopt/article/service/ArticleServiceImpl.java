@@ -10,6 +10,7 @@ import org.sopt.global.exception.ArticleException;
 import org.sopt.global.exception.BusinessException;
 import org.sopt.member.domain.Member;
 import org.sopt.member.repository.MemberRepository;
+import org.sopt.member.service.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,12 +23,11 @@ import static org.sopt.global.exception.constant.ErrorCode.*;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Override
     public ArticleInfoDto create(ArticleCreateDto req) {
-        Member author = memberRepository.findById(req.memberId())
-                .orElseThrow(() -> new ArticleException(MEMBER_NOT_FOUND));
+        Member author = memberService.findMemberById(req.memberId());
 
         if (articleRepository.findByTitle(req.title()).isPresent()) {
             throw new ArticleException(DUPLICATE_ARTICLE_TITLE);
@@ -49,15 +49,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleInfoDto findOne(Long articleId) {
-        Article a = articleRepository.findById(articleId)
+        Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ARTICLE_NOT_FOUND));
-        return ArticleInfoDto.from(a);
+        return ArticleInfoDto.from(article);
     }
 
     @Override
     public List<ArticleInfoDto> findAll() {
         List<Article> list = articleRepository.findAllByOrderByCreatedAtDesc();
-        if (list.isEmpty()) throw new ArticleException(EMPTY_ARTICLE_LIST);
         return list.stream().map(ArticleInfoDto::from).toList();
     }
 }

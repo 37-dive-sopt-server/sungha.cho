@@ -11,27 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("articles")
+@RequestMapping("/articles")
 @RequiredArgsConstructor
 public class ArticleController {
 
     private final ArticleService articleService;
 
-    // 생성
     @PostMapping
-    public ApiResponse<ArticleInfoDto> create(@RequestBody @Valid ArticleCreateDto req) {
+    public ApiResponse<ArticleInfoDto> createArticle(@RequestBody @Valid ArticleCreateDto req) {
         return ApiResponse.ok(articleService.create(req));
     }
 
-    // 단일 조회
     @GetMapping("/{articleId}")
-    public ApiResponse<ArticleInfoDto> getOne(@PathVariable Long articleId) {
+    public ApiResponse<ArticleInfoDto> getArticle(@PathVariable Long articleId) {
         return ApiResponse.ok(articleService.findOne(articleId));
     }
 
-    // 전체 조회
     @GetMapping
-    public ApiResponse<List<ArticleInfoDto>> getAll() {
+    public ApiResponse<List<ArticleInfoDto>> getAllArticles() {
         return ApiResponse.ok(articleService.findAll());
     }
 }
